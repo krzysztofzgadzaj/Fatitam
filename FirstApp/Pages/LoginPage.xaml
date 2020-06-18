@@ -1,0 +1,107 @@
+﻿<local:BasePage x:TypeArguments="local:LoginPageViewModel" x:Class="FirstApp.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FirstApp"
+      x:Name="Page"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="LoginPage">
+    
+    <Border>
+        <Grid>
+           
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Column="1" Grid.Row="1" CornerRadius="10" Background="{StaticResource BackgroundVeryLightBrush}">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" Opacity="0.4"/>
+                </Border.Effect>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Style="{StaticResource BoldHeaderText}" Text="Fatitam" FontSize="60"/>
+                        <TextBlock Style="{StaticResource NormalText}" Text="Just try it" FontSize="{StaticResource FontSizeRegular}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3">
+                        <TextBox Style="{StaticResource LoginTextBox}" Tag="Email" Text="{Binding Email}"/>
+                        <Border Grid.Row="2" Height="6" BorderThickness="0 0.2 0 0">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                                    <GradientStop Color="{StaticResource ForegroundLight}" Offset="0.0"/>
+                                    <GradientStop Color="{StaticResource ForegroundMain}" Offset="0.5"/>
+                                    <GradientStop Color="{StaticResource ForegroundLight}" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="4">
+                        <PasswordBox x:Name="PasswordText" Tag="Password"/>
+                        <Border Grid.Row="2" Height="6" BorderThickness="0 0.2 0 0">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                                    <GradientStop Color="{StaticResource ForegroundLight}" Offset="0.0"/>
+                                    <GradientStop Color="{StaticResource ForegroundMain}" Offset="0.5"/>
+                                    <GradientStop Color="{StaticResource ForegroundLight}" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                        </Border>
+                    </StackPanel>
+
+                    <Grid Grid.Row="5">
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="7*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
+
+                        <Button Content="Login" Grid.Column="1" Grid.Row="1" Style="{StaticResource BigButton}"
+                                    local:IsBusyProperty.Value="{Binding LoginIsRunning}"
+                                    Command="{Binding LoginCommand}"
+                                    CommandParameter="{Binding ElementName=Page}" 
+                                    />
+
+                        <Button Grid.Column="1" Grid.Row="2" Margin="0 5 0 0"
+                                Style="{StaticResource NoBackgroundButton}" Tag="No account? Sign up!"
+                                Command="{Binding GoToRegisterCommand}"/>
+
+                        
+                    </Grid>
+
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Border>
+
+</local:BasePage>

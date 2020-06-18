@@ -1,0 +1,250 @@
+﻿<local:BasePage x:TypeArguments="local:MainApplicationViewModel" x:Class="FirstApp.MainApplicationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FirstApp"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      mc:Ignorable="d" 
+      x:Name="MainPage"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ApplicationPage">
+
+    <Page.Resources>
+        <sys:Int32 x:Key="IntOne">1</sys:Int32>
+        <sys:Int32 x:Key="IntTwo">2</sys:Int32>
+        <sys:Int32 x:Key="IntThree">3</sys:Int32>
+        <sys:Int32 x:Key="IntFour">4</sys:Int32>
+        <sys:Int32 x:Key="IntFive">5</sys:Int32>
+    </Page.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.2*"/>
+            <ColumnDefinition Width="0.009*"/>
+            <ColumnDefinition Width="0.9*"/>
+            <ColumnDefinition Width="3.3*"/>
+            <ColumnDefinition Width="0.6*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.009*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="0.009*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="1" Grid.RowSpan="5"  Grid.Column="0" Background="{StaticResource BackgroundVeryLightBrush}" Opacity="0.83">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="0" Opacity="0.85"/>
+            </Border.Effect>
+        </Border>
+
+        <StackPanel Grid.Row="2" Grid.RowSpan="4"  Grid.Column="0">
+            <TextBlock Style="{StaticResource NormalText}" Text="Meals: " Foreground="{StaticResource WordDarkBlueBrush}"
+                       FontSize="{StaticResource FontSizeRegular}" HorizontalAlignment="Left" Margin="10, 0, 0, 0"/>
+            <Button Foreground="{StaticResource WordBlueBrush}" Opacity=".8"  Content="Breakfast" 
+                    Style="{StaticResource AppMenuButton}" Command="{Binding BreakfastCommand}"/>
+            <Button Foreground="{StaticResource WordBlueBrush}" Opacity=".8"  Content="Dinner" 
+                    Style="{StaticResource AppMenuButton}" Command="{Binding DinnerCommand}"/>
+            <Button Foreground="{StaticResource WordBlueBrush}" Opacity=".8"  Content="Supper" 
+                    Style="{StaticResource AppMenuButton}" Command="{Binding SupperCommand}"/>
+            <Button Foreground="{StaticResource WordBlueBrush}" Opacity=".8"  Content="Lunch" 
+                    Style="{StaticResource AppMenuButton}" Command="{Binding LunchCommand}"/>
+        </StackPanel>
+
+        <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="6" Background="DarkGray"/>
+        <Border Grid.Column="0" Grid.Row="0" Background="DarkGray"/>
+        <Border Grid.Column="0" Grid.Row="6" Background="DarkGray"/>
+
+        <Button Grid.Column="0" Grid.Row="5" Style="{StaticResource BigButton}" 
+                Margin="15" FontSize="{StaticResource FontSizeSmall}" Content="Add new product!"/>
+
+        <Border x:Name="Window" Visibility="{Binding WindowVisible, Converter={local:BooleanToVisiblityConverter},
+                ConverterParameter=True}" 
+                 Grid.Row="1" Grid.RowSpan="5"  Grid.Column="2" 
+                CornerRadius="6" Background="WhiteSmoke" Grid.ColumnSpan="3" Margin="119.333,23.333,79,26.667">
+
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="0" Opacity="0.85"/>
+            </Border.Effect>
+
+            <StackPanel>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Style="{StaticResource PlusMinusButton}" Content="-" Command="{Binding MinusCommand}"/>
+                    
+                    <TextBlock Text="{Binding Meal}" Style="{StaticResource NormalText}" 
+                           FontSize="{StaticResource FontSizeLarge}" Margin="0, 10, 0 5"/>
+
+                    <Button Style="{StaticResource PlusMinusButton}" Content="+" Command="{Binding PlusCommand}"/>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <TextBlock Text="Calories:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}"/>
+                    <TextBlock Text="{Binding CurrentContainer.Kcal}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}"/>
+
+                    <TextBlock Text="Proteins:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}"/>
+                    <TextBlock Text="{Binding CurrentContainer.Proteins}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}"/>
+
+                    <TextBlock Text="Fat:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}"/>
+                    <TextBlock Text="{Binding CurrentContainer.Fat}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}"/>
+
+                    <TextBlock Text="Carbohydrates:"  Margin="5, 0, 0, 0" Style="{StaticResource NormalText}"/>
+                    <TextBlock Text="{Binding CurrentContainer.Carbs}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}"/>
+                </StackPanel>
+
+                <Border Grid.Row="2" Height="6" BorderThickness="0 0.2 0 0" Margin="0 0 0 35">
+                    <Border.BorderBrush>
+                        <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                            <GradientStop Color="{StaticResource ForegroundLight}" Offset="0.0"/>
+                            <GradientStop Color="{StaticResource ForegroundMain}" Offset="0.5"/>
+                            <GradientStop Color="{StaticResource ForegroundLight}" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                </Border>
+
+                <Border>
+                    <StackPanel>
+
+                        <!--First product-->
+                        <TextBlock Text="{Binding CurrentList[0].Name}" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}" HorizontalAlignment="Center" Margin="0 0 0 10"
+                                   Visibility="{Binding Counter, Converter={local:IntToVisibilityConverter}, ConverterParameter={StaticResource IntOne}}"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 20"
+                                    Visibility="{Binding Counter, Converter={local:IntToVisibilityConverter}, ConverterParameter={StaticResource IntOne}}">
+                            <TextBlock Text="Calories:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[0].Kcal}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Proteins:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[0].Proteins}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Fat:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[0].Fat}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Carbohydrates:"  Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[0].Carbs}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                        </StackPanel>
+
+
+                        <!--Second product-->
+                        <TextBlock Text="{Binding CurrentList[1].Name}" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}" HorizontalAlignment="Center" Margin="0 0 0 10"
+                                   Visibility="{Binding Counter, Converter={local:IntToVisibilityConverter}, ConverterParameter={StaticResource IntTwo}}"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 20"
+                                    Visibility="{Binding Counter, Converter={local:IntToVisibilityConverter}, ConverterParameter={StaticResource IntTwo}}">
+                            <TextBlock Text="Calories:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[1].Kcal}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Proteins:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[1].Proteins}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Fat:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[1].Fat}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Carbohydrates:"  Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[1].Carbs}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                        </StackPanel>
+
+                        <!--Third product-->
+
+                        <TextBlock Text="{Binding CurrentList[2].Name}" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}" HorizontalAlignment="Center" Margin="0 0 0 10"
+                                   Visibility="{Binding Counter, Converter={local:IntToVisibilityConverter}, ConverterParameter={StaticResource IntThree}}"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin=" 0 0 0 20"
+                                    Visibility="{Binding Counter, Converter={local:IntToVisibilityConverter}, ConverterParameter={StaticResource IntThree}}">
+                            <TextBlock Text="Calories:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[2].Kcal}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Proteins:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[2].Proteins}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Fat:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[2].Fat}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Carbohydrates:"  Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[2].Carbs}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                        </StackPanel>
+
+                        <!--Fourth product-->
+                        <TextBlock Text="{Binding CurrentList[3].Name}" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}" HorizontalAlignment="Center" Margin="0 0 0 10"
+                                   Visibility="{Binding Counter, Converter={local:IntToVisibilityConverter}, ConverterParameter={StaticResource IntFour}}"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 20"
+                                    Visibility="{Binding Counter, Converter={local:IntToVisibilityConverter}, ConverterParameter={StaticResource IntFour}}">
+                            <TextBlock Text="Calories:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[3].Kcal}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Proteins:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[3].Proteins}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Fat:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[3].Fat}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Carbohydrates:"  Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[3].Carbs}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                        </StackPanel>
+
+                        <!--Fifth product-->
+                        <TextBlock Text="{Binding CurrentList[4].Name}" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}" HorizontalAlignment="Center" Margin="0 0 0 10"
+                                   Visibility="{Binding Counter, Converter={local:IntToVisibilityConverter}, ConverterParameter={StaticResource IntFive}}"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                                    Visibility="{Binding Counter, Converter={local:IntToVisibilityConverter}, ConverterParameter={StaticResource IntFive}}">
+                            <TextBlock Text="Calories:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[4].Kcal}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Proteins:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[4].Proteins}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Fat:" Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[4].Fat}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+
+                            <TextBlock Text="Carbohydrates:"  Margin="5, 0, 0, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                            <TextBlock Text="{Binding CurrentList[4].Carbs}" Margin="5, 0, 20, 0" Style="{StaticResource NormalText}" Foreground="{StaticResource ForegroundMainBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Column="3" Grid.Row="3" Margin="0.333,0,0,98.333" Grid.RowSpan="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border CornerRadius="15" Grid.Column="1" Background="{StaticResource BackgroundVeryLightBrush}" >
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" Opacity="0.85"/>
+                </Border.Effect>
+
+                <StackPanel >
+                    <TextBlock Style="{StaticResource HeaderText}" Text="Add new product:" HorizontalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Name: " Margin="20 5 20 20"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Kcal: " Margin="20 5"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Proteins: " Margin="20 5"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Fat: " Margin="20 5"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Carbs: " Margin="20 5"/>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                    
+                </StackPanel>
+            </Border>
+            
+        </Grid>
+
+    </Grid>
+</local:BasePage>
