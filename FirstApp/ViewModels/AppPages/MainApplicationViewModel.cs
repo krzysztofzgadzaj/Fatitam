@@ -41,9 +41,17 @@ namespace FirstApp
 
         public List<Meal> CurrentList { get; set; } = new List<Meal>();
 
-        public bool WindowVisible { get; set; } = false;
+        public List<Meal> ProductsList { get; set; } = new List<Meal>();
 
         public int Counter { get; set; } = 0;
+
+        public bool IfAddProduct { get; set; }
+        public bool IfPlusProduct { get; set; }
+        public bool WindowVisible { get; set; } = false;
+
+        public Meal NewMeal { get; set; } = new Meal();
+
+        public Meal SelectedItem { get; set; } 
 
         #endregion
 
@@ -58,6 +66,11 @@ namespace FirstApp
         public ICommand PlusCommand { get; set; }
         public ICommand MinusCommand { get; set; }
 
+        public ICommand InAddCommand { get; set; }
+        public ICommand InCancleCommand { get; set; }
+
+        public ICommand OutAddCommand { get; set; }
+        public ICommand OutCancleCommand { get; set; }
 
         #endregion
 
@@ -65,12 +78,8 @@ namespace FirstApp
 
         public MainApplicationViewModel()
         {
-            BreakfastList.Add(new Meal { Name = "ryż", Kcal = 360, Fat = 2, Carbs = 74, Proteins = 6 });
-            BreakfastList.Add(new Meal { Name = "kasza", Kcal = 360, Fat = 2, Carbs = 74, Proteins = 6 });
-            DinnerList.Add(new Meal { Name = "makaron", Kcal = 360, Fat = 2, Carbs = 74, Proteins = 6 });
-            SupperList.Add(new Meal { Name = "ser", Kcal = 450, Fat = 31, Carbs = 12, Proteins = 36 });
-
             this.BreakfastContainer = new Meal { Name = "", Kcal = 0, Fat = 0, Carbs = 0, Proteins = 0 };
+            IfAddProduct = false;
 
             BreakfastCommand = new RelayCommand(() => BreakfastClick());
             DinnerCommand = new RelayCommand(() => DinnerClick());
@@ -81,7 +90,11 @@ namespace FirstApp
             PlusCommand = new RelayCommand(() => PlusClick());
             MinusCommand = new RelayCommand(() => MinusClick());
 
-            Console.WriteLine(BreakfastList[0].Name);
+            InAddCommand = new RelayCommand(() => InAddClick());
+            InCancleCommand = new RelayCommand(() => InCancleClick());
+
+            OutAddCommand = new RelayCommand(() => OutAddClick());
+            OutCancleCommand = new RelayCommand(() => OutCancleClick());
         }
 
         #endregion
@@ -92,10 +105,9 @@ namespace FirstApp
         {
             this.Meal = "Breakfast";
             WindowVisible = true;
-            BreakfastContainer = MacroCounter.setContainerValues(BreakfastList);
             setCurrentList();
             setCurrentContainer();
-
+           
             Counter = breakfastCounter;
         }
 
@@ -103,7 +115,6 @@ namespace FirstApp
         {
             this.Meal = "Dinner";
             WindowVisible = true;
-            DinnerContainer = MacroCounter.setContainerValues(DinnerList);
             setCurrentList();
             setCurrentContainer();
 
@@ -114,7 +125,6 @@ namespace FirstApp
         {
             this.Meal = "Supper";
             WindowVisible = true;
-            SupperContainer = MacroCounter.setContainerValues(SupperList);
             setCurrentList();
             setCurrentContainer();
 
@@ -125,7 +135,6 @@ namespace FirstApp
         {
             this.Meal = "Lunch";
             WindowVisible = true;
-            LunchContainer = MacroCounter.setContainerValues(LunchList);
             setCurrentList();
             setCurrentContainer();
 
@@ -134,7 +143,7 @@ namespace FirstApp
 
         private void AddProductClick()
         {
-            throw new NotImplementedException();
+            IfAddProduct = true;
         }
 
         private void PlusClick()
@@ -142,23 +151,19 @@ namespace FirstApp
             switch (Meal)
             {
                 case "Breakfast":
-                    breakfastCounter++;
-                    Counter = breakfastCounter;
+                    IfPlusProduct = true;
                     break;
 
                 case "Dinner":
-                    dinnerCounter++;
-                    Counter = dinnerCounter;
+                    IfPlusProduct = true;
                     break;
 
                 case "Supper":
-                    supperCounter++;
-                    Counter = supperCounter;
+                    IfPlusProduct = true;
                     break;
 
                 case "Lunch":
-                    lunchCounter++;
-                    Counter = lunchCounter;
+                    IfPlusProduct = true;
                     break;
 
                 default:
@@ -195,6 +200,94 @@ namespace FirstApp
             }
         }
 
+        private void InAddClick()
+        {
+            ProductsList.Add( new Meal {
+                Name = NewMeal.Name,
+                Kcal = NewMeal.Kcal,
+                Proteins = NewMeal.Proteins,
+                Fat = NewMeal.Fat,
+                Carbs = NewMeal.Carbs
+            });
+
+            OnPropertyChanged(nameof(ProductsList));
+
+            NewMeal.Name = "";
+            NewMeal.Kcal = 0;
+            NewMeal.Proteins = 0;
+            NewMeal.Fat = 0;
+            NewMeal.Carbs = 0;
+
+            IfAddProduct = false;
+        }
+
+        private void InCancleClick()
+        {
+            IfAddProduct = false;
+
+            NewMeal.Name = "";
+            NewMeal.Kcal = 0;
+            NewMeal.Proteins = 0;
+            NewMeal.Fat = 0;
+            NewMeal.Carbs = 0;
+        }
+
+        private bool OutAddClick()
+        {
+            switch (Meal)
+            {
+                case "Breakfast":
+                    BreakfastList.Add(new Meal { Kcal = SelectedItem.Kcal, Name = SelectedItem.Name, Carbs = SelectedItem.Carbs, Fat = SelectedItem.Fat, Proteins = SelectedItem.Proteins });
+                    breakfastCounter++;
+                    Counter = breakfastCounter;
+                    IfPlusProduct = false;
+                    setCurrentList();
+                    setCurrentContainer();
+                    BreakfastContainer = MacroCounter.setContainerValues(BreakfastList);
+                    return true;
+
+                case "Dinner":
+                    DinnerList.Add(new Meal { Kcal = SelectedItem.Kcal, Name = SelectedItem.Name, Carbs = SelectedItem.Carbs, Fat = SelectedItem.Fat, Proteins = SelectedItem.Proteins });
+                    dinnerCounter++;
+                    Counter = dinnerCounter;
+                    IfPlusProduct = false;
+                    setCurrentList();
+                    setCurrentContainer();
+                    DinnerContainer = MacroCounter.setContainerValues(DinnerList);
+                    return true;
+
+                case "Supper":
+                    SupperList.Add(new Meal { Kcal = SelectedItem.Kcal, Name = SelectedItem.Name, Carbs = SelectedItem.Carbs, Fat = SelectedItem.Fat, Proteins = SelectedItem.Proteins });
+                    supperCounter++;
+                    Counter = supperCounter;
+                    IfPlusProduct = false;
+                    setCurrentList();
+                    setCurrentContainer();
+                    SupperContainer = MacroCounter.setContainerValues(SupperList);
+                    return true;
+
+                case "Lunch":
+                    LunchList.Add(new Meal { Kcal = SelectedItem.Kcal, Name = SelectedItem.Name, Carbs = SelectedItem.Carbs, Fat = SelectedItem.Fat, Proteins = SelectedItem.Proteins });
+                    lunchCounter++;
+                    Counter = lunchCounter;
+                    IfPlusProduct = false;
+                    setCurrentList();
+                    setCurrentContainer();
+                    LunchContainer = MacroCounter.setContainerValues(LunchList);
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        private void OutCancleClick()
+        {
+            IfPlusProduct = false;
+        }
+
+        
+
         #endregion
 
         #region Private helpers
@@ -206,18 +299,22 @@ namespace FirstApp
             {
                 case "Breakfast":
                     CurrentList = BreakfastList;
+                    OnPropertyChanged(nameof(CurrentList));
                     break;
 
                 case "Dinner":
                     CurrentList = DinnerList;
+                    OnPropertyChanged(nameof(CurrentList));
                     break;
 
                 case "Supper":
                     CurrentList = SupperList;
+                    OnPropertyChanged(nameof(CurrentList));
                     break;
 
                 case "Lunch":
                     CurrentList = LunchList;
+                    OnPropertyChanged(nameof(CurrentList));
                     break;
 
                 default:
@@ -249,6 +346,8 @@ namespace FirstApp
                     break;
             }
         }
+
+
 
         #endregion
     }

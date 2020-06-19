@@ -61,7 +61,7 @@
         <Border Grid.Column="0" Grid.Row="6" Background="DarkGray"/>
 
         <Button Grid.Column="0" Grid.Row="5" Style="{StaticResource BigButton}" 
-                Margin="15" FontSize="{StaticResource FontSizeSmall}" Content="Add new product!"/>
+                Margin="15" FontSize="{StaticResource FontSizeSmall}" Content="Add new product!" Command="{Binding AddProductCommand}"/>
 
         <Border x:Name="Window" Visibility="{Binding WindowVisible, Converter={local:BooleanToVisiblityConverter},
                 ConverterParameter=True}" 
@@ -221,7 +221,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Border CornerRadius="15" Grid.Column="1" Background="{StaticResource BackgroundVeryLightBrush}" >
+            <Border Visibility="{Binding IfAddProduct, Converter={local:BooleanToVisiblityConverter}, ConverterParameter=true}" CornerRadius="15" Grid.Column="1" Background="{StaticResource BackgroundVeryLightBrush}" >
                 <Border.Effect>
                     <DropShadowEffect ShadowDepth="0" Opacity="0.85"/>
                 </Border.Effect>
@@ -232,11 +232,26 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
 
                         <StackPanel>
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Name: " Margin="20 5 20 20"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Name: " Margin="20 5 "/>
                             <TextBlock Style="{StaticResource HeaderText}" Text="Kcal: " Margin="20 5"/>
                             <TextBlock Style="{StaticResource HeaderText}" Text="Proteins: " Margin="20 5"/>
                             <TextBlock Style="{StaticResource HeaderText}" Text="Fat: " Margin="20 5"/>
                             <TextBlock Style="{StaticResource HeaderText}" Text="Carbs: " Margin="20 5"/>
+                        </StackPanel>
+
+                        <StackPanel HorizontalAlignment="Center" >
+                            <TextBox Text="{Binding NewMeal.Name}"  Width="40" Margin="20 4"/>
+                            <TextBox Text="{Binding NewMeal.Kcal}"  Width="40" Margin="20 4"/>
+                            <TextBox Text="{Binding NewMeal.Proteins}"  Width="40" Margin="20 4"/>
+                            <TextBox Text="{Binding NewMeal.Fat}"  Width="40" Margin="20 4"/>
+                            <TextBox Text="{Binding NewMeal.Carbs}"  Width="40" Margin="20 4"/>
+                        </StackPanel>
+
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Button Style="{StaticResource BigButton}" Content="Add" Margin="10 5" 
+                                    FontSize="{StaticResource FontSizeSmall}" Padding="5" Command="{Binding InAddCommand}"/>
+                            <Button Style="{StaticResource BigButton}" Content="Cancel" Margin=" 10 5" 
+                                    FontSize="{StaticResource FontSizeSmall}" Padding="5" Command="{Binding InCancleCommand}"/>
                         </StackPanel>
                         
                     </StackPanel>
@@ -244,6 +259,39 @@
                 </StackPanel>
             </Border>
             
+        </Grid>
+
+        <Grid Grid.Column="3" Grid.Row="3" Margin="0.333,0,0,98.333" Grid.RowSpan="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Visibility="{Binding IfPlusProduct, Converter={local:BooleanToVisiblityConverter}, ConverterParameter=true}" 
+                    CornerRadius="15" Grid.Column="1" Background="{StaticResource BackgroundVeryLightBrush}" >
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" Opacity="0.85"/>
+                </Border.Effect>
+
+                <StackPanel>
+                    <ComboBox ItemsSource="{Binding ProductsList}" DisplayMemberPath="Name" 
+                              SelectedValue="{Binding SelectedItem}"
+                              
+                              BorderThickness="0 0 0 1"  Background="Transparent" Margin="10 40 10 20"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Style="{StaticResource BigButton}" Content="Add" Margin="10 5" 
+                                    FontSize="{StaticResource FontSizeSmall}" Padding="5" Command="{Binding OutAddCommand}"/>
+                        <Button Style="{StaticResource BigButton}" Content="Cancel" Margin=" 10 5" 
+                                    FontSize="{StaticResource FontSizeSmall}" Padding="5" Command="{Binding OutCancleCommand}"/>
+                    </StackPanel>
+                    
+                </StackPanel>
+
+            </Border>
+
         </Grid>
 
     </Grid>
