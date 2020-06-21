@@ -8,6 +8,6 @@ namespace FirstApp
 {
     public class ApplicationViewModel : BaseViewModel
     {
-        public ApplicationPage CurrentPage { get; set; } = ApplicationPage.MainAppPage;
+        public ApplicationPage CurrentPage { get; set; } = ApplicationPage.LoginPage;
     }
 }
